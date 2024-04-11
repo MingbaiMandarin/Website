@@ -1,0 +1,77 @@
+[
+    {
+        "image": "../assets/Crocodile1.png",
+        "name": "Crocodile"
+    },
+    {
+        "image": "../assets/Deer1.png",
+        "name": "Deer"
+    },
+    {
+        "image": "../assets/Elephant1.jpg",
+        "name": "Elephant"
+    },
+    {
+        "image": "../assets/Fox1.jpeg",
+        "name": "Fox"
+    },
+    {
+        "image": "../assets/Gorilla1.jpg",
+        "name": "Gorilla"
+    },
+    {
+        "image": "../assets/Horse1.jpg",
+        "name": "Horse"
+    },
+    {
+        "image": "../assets/Lion1.jpeg",
+        "name": "Lion"
+    },
+    {
+        "image": "../assets/Rabbit1.jpeg",
+        "name": "Rabbit"
+    },
+    {
+        "image": "../assets/Tiger1.jpg",
+        "name": "Tiger"
+    },
+
+
+
+    {
+        "image": "../assets/Crocodile.png",
+        "name": "Crocodile"
+    },
+    {
+        "image": "../assets/Deer.png",
+        "name": "Deer"
+    },
+    {
+        "image": "../assets/Elephant.jpg",
+        "name": "Elephant"
+    },
+    {
+        "image": "../assets/Fox.jpg",
+        "name": "Fox"
+    },
+    {
+        "image": "../assets/Gorilla.jpg",
+        "name": "Gorilla"
+    },
+    {
+        "image": "../assets/Horse.jpg",
+        "name": "Horse"
+    },
+    {
+        "image": "../assets/Lion.jpg",
+        "name": "Lion"
+    },
+    {
+        "image": "../assets/Rabbit.png",
+        "name": "Rabbit"
+    },
+    {
+        "image": "../assets/Tiger.png",
+        "name": "Tiger"
+    }
+]
