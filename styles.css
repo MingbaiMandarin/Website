@@ -251,7 +251,6 @@ body {
   padding: 10px 20px;
   border-radius: var(--radius-5);
   overflow: hidden;
-  margin: 5px;
 }
 
 .btn:active {
@@ -344,6 +343,27 @@ body {
   align-items: center;
   gap: 15px;
 }
+
+.logo {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  /* Dark color */
+  padding: 10px 20px;
+  /* Add padding to the logo */
+  border-radius: 5px;
+  /* Add rounded corners to the border */
+  transition: all 0.3s ease;
+  /* Add smooth transition effect */
+}
+
+.logo:hover {
+  color: #EE1F0B;
+  /* White color */
+}
+
 
 .header-action-btn,
 .nav-close-btn {
@@ -646,7 +666,7 @@ body {
 .image-container img {
   max-width: 100%;
   height: auto;
-  margin-top: 50px;
+  margin-top: 45px;
 }
 
 .content-container {
@@ -675,6 +695,13 @@ body {
   background-color: var(--eerie-black-2);
   color: var(--gray-x-11);
   font-size: var(--fs-5);
+}
+
+.footer-logo {
+  color: var(--white);
+  font-family: var(--ff-league_spartan);
+  font-size: var(--fs-3);
+  font-weight: var(--fw-600);
 }
 
 .footer-top {
@@ -750,11 +777,16 @@ body {
 }
 
 .copyright-link {
-  color: var(--kappel);
-  display: inline-block;
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  color: #EE1F0B
 }
 
-
+.copyright-link a {
+  display: inline-block; /* Ensure the links are displayed inline */
+  margin: 0 10px; /* Add some space between the links */
+}
 
 
 /*-----------------------------------*\
@@ -1325,6 +1357,20 @@ body {
   /* Adjust the maximum width of group cards */
 }
 
+.play-button {
+  background-color: var(--kappel);
+  color: var(--white);
+  font-family: var(--ff-league_spartan);
+  font-size: var(--fs-4);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: max-content;
+  padding: 10px 20px;
+  border-radius: var(--radius-5);
+  overflow: hidden;
+}
+
 .play-group-card {
   background-color: #fff;
   padding: 20px;
@@ -1340,7 +1386,7 @@ body {
   text-align: center;
 }
 
-.play-group-card img{
+.play-group-card img {
   width: 100px;
   height: 100px;
 }
@@ -1350,6 +1396,21 @@ body {
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 40px;
+}
+
+.play-game {
+  border-radius: 10px;
+  height: 200px;
+  width: 200px;
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+}
+
+.play-game:hover {
+  border: 2px solid #333; /* Dark border */
 }
 
 /**
@@ -1366,10 +1427,10 @@ body {
   margin: 50px 50px;
 }
 
-.learn-page-container h1{
+.learn-page-container h1 {
   font-size: 2.5em;
 }
 
-.learn-page-container h5{
+.learn-page-container h5 {
   font-size: 1.5em;
 }
