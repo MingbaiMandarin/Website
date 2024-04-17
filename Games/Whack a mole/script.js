@@ -65,7 +65,8 @@ function resumeGame() {
 function wack(e) {
     if (!e.isTrusted) return;
     const moleMonth = this.parentNode.querySelector('.card-content h2').textContent.trim();
-    if (moleMonth === cardTitle.textContent) {
+    const currentMonth = cardTitle.textContent.trim();
+    if (moleMonth === currentMonth) {
         score++;
         scoreBoard.textContent = score;
     }

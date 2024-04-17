@@ -1,45 +1,49 @@
 body {
-  min-height: 100vh;
-  min-width: 100vh;
+  font-family: Arial, sans-serif;
   background-color: #12181f;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-    text-align: center;
-    font-weight: 700;
-    font-size: 50px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-top: 1em;
 }
 
 p {
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .actions {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
 }
 
 .actions button {
-    padding: 8px 16px;
-    font-size: 30px;
-    border-radius: 10px;
-    background-color: #27ae60;
-    color: white;
+  padding: 1em 2em;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  background-color: #27ae60;
+  color: white;
 }
 
 .grid-container {
   display: grid;
+  grid-gap: 1em;
   justify-content: center;
-  grid-gap: 16px;
-  grid-template-columns: repeat(6, 140px);
-  grid-template-rows: repeat(2, calc(140px / 2 * 3));
+  padding: 0 0.5em; /* Adjust the padding here */
+  grid-template-columns: repeat(6, 0.1fr);
+  grid-template-rows: repeat(3, auto);
 }
 
 .card {
-  height: calc(140px / 2 * 3);
+  height: 200px;
   width: 140px;
   border-radius: 10px;
   background-color: white;
@@ -50,21 +54,22 @@ p {
 
 .front-image {
   width: 60px;
-  height: 60px;
+  height: auto;
 }
 
 .card.flipped {
   transform: rotateY(180deg);
 }
 
-.front, .back {
-    backface-visibility: hidden;
-    position: absolute;
-    border-radius: 10px;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+.front,
+.back {
+  backface-visibility: hidden;
+  position: absolute;
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .card .front {
@@ -80,6 +85,21 @@ p {
   backface-visibility: hidden;
 }
 
+
 .card .front {
   transform: rotateY(180deg);
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns for mobile */
+    padding: 0 0.3em; /* Adjust the padding for mobile */
+  }
+
+  .card {
+    height: 100px; /* Adjust card height for mobile */
+    width: 100px; /* Adjust card width for mobile */
+    /* Other styles for mobile */
+  }
 }

@@ -1,0 +1,189 @@
+html {
+    font-size: 35px;
+    background: white;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    font-size: 100px;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+.score {
+    background: red;
+    padding: 0 48px;
+    line-height: 1;
+    border-radius: 16px;
+    color: #fff;
+    margin-left: 15px;
+}
+
+.game {
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.hole {
+    flex: 1 0 25%; /* 25% width for each mole to accommodate 4 moles in a row */
+    overflow: hidden;
+    position: relative;
+}
+
+.hole:after {
+    display: block;
+    background: url(dirt.png) bottom center no-repeat;
+    background-size: contain;
+    content: '';
+    width: 100%;
+    height: 90px;
+    position: absolute;
+    z-index: 2;
+    bottom: -30px;
+}
+
+.mole {
+    background: url('mole.png') bottom center no-repeat;
+    background-size: 100%;
+    position: absolute;
+    top: 100%;
+    width: 150px;
+    height: 150px;
+    transition: all 0.4s;
+}
+
+.hole.up .mole {
+    top: 0;
+}
+
+button {
+    width: 175px;
+    font-size: 35px;
+    height: 70px;
+    color: #fff;
+    background-color: red;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: 90px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+@media (min-width: 667px) and (max-width: 1024px) {
+    h1 {
+        display: none;
+    }
+    .score {
+        background: red;
+        padding: 0 12px;
+        line-height: 1;
+        border-radius: 16px;
+        color: #fff;
+        font-size: 40px;
+        margin-left: 20px;
+    }
+    .hole.up .mole {
+        top: 17px;
+    }
+}
+
+@media (max-width: 667px) {
+    .game {
+        width: 667px;
+        height: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
+    }
+    .score {
+        width: 35px;
+        font-size: 15px;
+        height: 40px;
+        color: #fff;
+        background-color: red;
+        border-radius: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+        padding: 5px;
+    }
+    button {
+        margin: 10px 10px 10px 10px;
+        height: 40px;
+        width: 75px;
+        font-size: 15px;
+    }
+    .hole:after {
+        display: block;
+        background: url(dirt.png) bottom center no-repeat;
+        background-size: contain;
+        content: '';
+        max-width: 70%;
+        height: 60px;
+        position: absolute;
+        z-index: 2;
+        bottom: -30px;
+    }
+    .mole {
+        background: url('mole.png') bottom center no-repeat;
+        background-size: 60%;
+        position: absolute;
+        top: 100%;
+        max-width: 70%;
+        height: 70%;
+        transition: all 0.4s;
+    }
+    .hole.up .mole {
+        top: 50px;
+    }
+}
