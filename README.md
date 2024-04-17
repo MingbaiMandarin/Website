@@ -28,7 +28,7 @@ The Mingbai Mandarin website is an educational platform designed for learning Ma
 
 - Aditya Sanap: [LinkedIn Profile](https://www.linkedin.com/in/aditya-sanap-ams1821/)
 - Sahil Samant: [LinkedIn Profile](https://www.linkedin.com/in/sahil-samant-9141181b2/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)
-- Sharandeep: [GitHub Profile](https://github.com/DemonKing680)
+- Sharandeep: [LinkedIn Profile](https://www.linkedin.com/in/sharandeep-singh-rajpal-86a388182/)
 - Kaushal B: [LinkedIn Profile](https://www.linkedin.com/in/kaushal-b-5a8890254/)
 
 ## License
