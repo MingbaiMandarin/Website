@@ -1,0 +1,1058 @@
+/*-----------------------------------*\
+  #About Page style
+\*-----------------------------------*/
+
+:root {
+    /**
+     * spacing
+     */
+
+    --section-padding: 50px;
+}
+
+/*-----------------------------------*\
+    #RESET
+  \*-----------------------------------*/
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a,
+img,
+span,
+data,
+input,
+button,
+ion-icon {
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    height: auto;
+}
+
+input,
+button {
+    background: none;
+    border: none;
+    font: inherit;
+}
+
+input {
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+ion-icon {
+    pointer-events: none;
+}
+
+address {
+    font-style: normal;
+}
+
+html {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 50%);
+    font-size: 1.6rem;
+    line-height: 1.75;
+}
+
+:focus-visible {
+    outline-offset: 4px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: hsl(0, 0%, 98%);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: hsl(0, 0%, 80%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(0, 0%, 70%);
+}
+
+
+
+
+/*-----------------------------------*\
+      #REUSED STYLE
+    \*-----------------------------------*/
+
+.container {
+    padding-inline: 15px;
+}
+
+.section {
+    padding-block: var(--section-padding);
+}
+
+.shape {
+    position: absolute;
+    display: none;
+}
+
+.has-bg-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.h1,
+.h2,
+.h3 {
+    color: hsl(0, 0%, 9%);
+    font-family: 'League Spartan', sans-serif;
+    line-height: 1;
+}
+
+.h1,
+.h2 {
+    font-weight: 600;
+}
+
+.h1 {
+    font-size: 4.2rem;
+}
+
+.h2 {
+    font-size: 3.2rem;
+}
+
+.h3 {
+    font-size: 2.3rem;
+    font-weight: 500;
+}
+
+.section-title {
+    --color: #EE1F0B;
+    text-align: center;
+}
+
+.section-title .span {
+    display: inline-block;
+    color: var(--color);
+}
+
+.btn {
+    background-color: #EE1F0B;
+    color: hsl(0, 0%, 100%);
+    font-family: 'League Spartan', sans-serif;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: max-content;
+    padding: 10px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.btn:active {
+    scale: 0.95;
+}
+
+.img-holder {
+    aspect-ratio: var(--width) / var(--height);
+    background-color: hsl(0, 0%, 80%);
+    overflow: hidden;
+}
+
+.img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section-subtitle {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-block-end: 15px;
+    color: #EE1F0B;
+}
+
+.section-text {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-block: 15px 25px;
+}
+
+.grid-list {
+    display: grid;
+    gap: 30px;
+}
+
+.category-card,
+.stats-card {
+    background-color: hsla(var(--color), 0.1);
+}
+
+:is(.course, .blog) .section-title {
+    margin-block-end: 40px;
+}
+
+
+/*-----------------------------------*\
+    #HEADER
+\*-----------------------------------*/
+
+.title {
+    font-family: 'League Spartan', sans-serif;
+    color: hsl(351, 83%, 61%);
+    font-size: 50px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 40px;
+    text-decoration: underline 4px;
+}
+
+
+.header .btn {
+    display: none;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: hsl(0, 0%, 100%);
+    padding-block: 12px;
+    box-shadow: 0 6px 15px 0 hsla(0, 0%, 0%, 0.05);
+    z-index: 4;
+}
+
+.header.active {
+    position: fixed;
+}
+
+.header .container,
+.header-actions,
+.navbar .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    color: #EE1F0B;
+}
+
+
+.header-action-btn,
+.nav-close-btn {
+    position: relative;
+    color: hsl(0, 0%, 9%);
+    font-size: 24px;
+    transition: 0.25s ease;
+}
+
+.header-action-btn:is(:hover, :focus) {
+    color: #EE1F0B;
+}
+
+.header-action-btn .btn-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #EE1F0B;
+    color: hsl(0, 0%, 100%);
+    font-family: 'League Spartan', sans-serif;
+    font-size: 1.4rem;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    background-color: hsl(0, 0%, 100%);
+    width: 100%;
+    max-width: 320px;
+    height: 100%;
+    z-index: 2;
+    transition: 0.25s cubic-bezier(0.51, 0.03, 0.64, 0.28);
+}
+
+.navbar.active {
+    transform: translateX(320px);
+    transition: 0.5s cubic-bezier(0.33, 0.85, 0.4, 0.96);
+}
+
+.navbar .wrapper {
+    padding: 15px 20px;
+    border-block-end: 1px solid hsl(0, 0%, 90%);
+}
+
+.nav-close-btn {
+    background-color: hsl(0, 0%, 100%);
+    box-shadow: 0 10px 30px hsla(0, 0%, 0%, 0.06);
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.nav-close-btn:is(:hover, :focus) {
+    background-color: #EE1F0B;
+    color: hsl(0, 0%, 100%);
+}
+
+.navbar-list {
+    padding: 15px 20px;
+}
+
+.navbar-item:not(:last-child) {
+    border-block-end: 1px solid hsl(0, 0%, 90%);
+}
+
+.navbar-link {
+    padding-block: 8px;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+
+.navbar-link:is(:hover, :focus) {
+    color: #EE1F0B;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: hsla(0, 0%, 0%, 0.8);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+    transition: 0.25s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/*-----------------------------------*\
+    #PLAY PAGE
+\*-----------------------------------*/
+
+.play-page-heading {
+    background-color: hsla(0, 0%, 100%, 0.5);
+    color: #EE1F0B;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.play-page-heading h1 {
+    font-size: 2.5em;
+}
+
+.play-page-main {
+    padding: 20px;
+}
+
+.play-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the title */
+    gap: 40px;
+}
+
+.play-group {
+    width: 100%;
+    /* Make each group full width */
+    max-width: 600px;
+    /* Adjust the maximum width of group cards */
+}
+
+.play-button {
+    background-color: #EE1F0B;
+    color: hsl(0, 0%, 100%);
+    font-family: 'League Spartan', sans-serif;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: max-content;
+    padding: 10px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.play-group-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.play-group-card h2 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.play-group-card img {
+    width: 100px;
+    height: 100px;
+}
+
+.play-group-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.play-game {
+    border-radius: 10px;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    /* Use flexbox */
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: center;
+    /* Center items vertically */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Add box shadow for depth */
+}
+
+.play-game:hover {
+    border: 2px solid #333;
+    /* Dark border */
+}
+
+/*-----------------------------------*\
+    #FOOTER
+\*-----------------------------------*/
+
+.footer {
+    background-repeat: no-repeat;
+    background-color: hsl(180, 3%, 7%);
+    color: hsl(0, 0%, 73%);
+    font-size: 1.5rem;
+}
+
+.footer-logo {
+    color: hsl(0, 0%, 100%);
+    font-family: 'League Spartan', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 600;
+}
+
+.footer-top {
+    display: grid;
+    gap: 30px;
+}
+
+.footer-brand-text {
+    margin-block: 20px;
+}
+
+.footer-brand .wrapper {
+    display: flex;
+    gap: 5px;
+}
+
+.footer-brand .wrapper .span {
+    font-weight: 500;
+}
+
+.footer-link {
+    transition: 0.25s ease;
+}
+
+.footer-link:is(:hover, :focus) {
+    color: #EE1F0B;
+}
+
+.footer-list-title {
+    color: hsl(0, 0%, 100%);
+    font-family: 'League Spartan', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 600;
+    margin-block-end: 10px;
+}
+
+.footer-list .footer-link {
+    padding-block: 5px;
+}
+
+.newsletter-form {
+    margin-block: 20px 35px;
+}
+
+.newsletter-form .input-field {
+    background-color: hsl(0, 0%, 100%);
+    padding: 12px;
+    border-radius: 5px;
+    margin-block-end: 20px;
+}
+
+.newsletter-form .btn {
+    min-width: 100%;
+    justify-content: center;
+}
+
+.social-list {
+    display: flex;
+    gap: 25px;
+}
+
+.social-link {
+    font-size: 20px;
+}
+
+.footer-bottom {
+    border-block-start: 1px solid hsl(0, 0%, 9%);
+    padding-block: 30px;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.copyright-link {
+    display: flex;
+    /* Use flexbox */
+    justify-content: center;
+    /* Center the content horizontally */
+    align-items: center;
+    /* Center the content vertically */
+    color: #EE1F0B
+}
+
+.copyright-link a {
+    display: inline-block;
+    /* Ensure the links are displayed inline */
+    margin: 0 10px;
+    /* Add some space between the links */
+}
+
+
+/*-----------------------------------*\
+    #BACK TO TOP
+\*-----------------------------------*/
+
+.back-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background-color: #EE1F0B;
+    color: hsl(0, 0%, 100%);
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+.back-top-btn.active {
+    transform: translateY(10px);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/*-----------------------------------*\
+    #MEDIA QUERIES
+  \*-----------------------------------*/
+
+
+/**
+   * responsive for large than 575px screen
+   */
+
+@media (min-width: 575px) {
+
+    /**
+       * REUSED STYLE
+       */
+
+    .container {
+        max-width: 520px;
+        width: 100%;
+        margin-inline: auto;
+    }
+
+    .grid-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    :is(.course, .blog) .grid-list {
+        grid-template-columns: 1fr;
+    }
+
+    /**
+       * HEADER
+       */
+
+    .header .container {
+        max-width: unset;
+    }
+
+    .header-actions {
+        gap: 30px;
+    }
+
+    /**
+       * About
+       */
+
+    .about-page-heading {
+        position: relative;
+        /* Remove fixed position on smaller screens */
+        padding-top: 50px;
+        /* Adjust as needed */
+        padding-bottom: 20px;
+        /* Adjust as needed */
+    }
+
+
+    /**
+       * FOOTER
+       */
+
+    .footer-brand,
+    .footer-list:last-child {
+        grid-column: 1 / 3;
+    }
+
+    .newsletter-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .newsletter-form .input-field {
+        margin-block-end: 0;
+    }
+
+    .newsletter-form .btn {
+        min-width: max-content;
+    }
+
+}
+
+
+
+/**
+     * responsive for large than 768px screen
+     */
+
+@media (min-width: 768px) {
+
+    /**
+       * CUSTOM PROPERTY
+       */
+
+    :root {
+
+        /**
+         * typography
+         */
+
+        --fs-1: 4.6rem;
+        --fs-2: 3.8rem;
+
+    }
+
+
+
+    /**
+       * REUSED STYLE
+       */
+
+    .container {
+        max-width: 720px;
+    }
+
+    .btn {
+        padding: 15px 30px;
+    }
+
+    :is(.course, .blog) .grid-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+
+    /**
+       * HEADER
+       */
+
+    .header .container {
+        padding-inline: 30px;
+    }
+
+    .header .btn {
+        display: flex;
+        padding: 10px 30px;
+        margin-inline: 20px;
+    }
+
+
+
+    /**
+       * HERO
+       */
+
+    .hero {
+        padding-block-start: calc(var(--section-padding) + 90px);
+    }
+
+    .hero .container {
+        gap: 50px;
+    }
+
+    .hero-text {
+        margin-block-end: 30px;
+    }
+
+    .hero-banner {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-banner .img-holder {
+        max-width: max-content;
+    }
+
+    .hero-banner .img-holder.one {
+        justify-self: flex-end;
+    }
+
+    .hero-banner .img-holder.two {
+        margin-block-start: 100px;
+    }
+
+    .hero-shape-1 {
+        display: block;
+        position: absolute;
+        bottom: -40px;
+        left: -10px;
+    }
+
+
+    /**
+       * ABOUT
+       */
+
+    .about {
+        padding-block-start: 50px;
+    }
+
+    .about-banner {
+        padding: 60px;
+        padding-inline-end: 0;
+    }
+
+    .about-banner .img-holder {
+        max-width: max-content;
+        margin-inline: auto;
+    }
+
+    .about-shape-1 {
+        display: block;
+        top: -40px;
+        right: -70px;
+    }
+
+    /**
+       * FOOTER
+       */
+
+    .footer-brand,
+    .footer-list:last-child {
+        grid-column: auto;
+    }
+
+    .newsletter-form .btn {
+        padding-block: 10px;
+    }
+
+}
+
+
+/**
+     * responsive for large than 992px screen
+     */
+
+@media (min-width: 992px) {
+
+    /**
+       * CUSTOM PROPERTY
+       */
+
+    :root {
+
+        /**
+         * typography
+         */
+
+        --fs-1: 5.5rem;
+        --fs-2: 4.5rem;
+
+    }
+
+
+
+    /**
+       * REUSED STYLE
+       */
+
+    .container {
+        max-width: 960px;
+    }
+
+    .grid-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    :is(.course, .blog) .grid-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+
+
+    /**
+       * HERO
+       */
+
+    .hero .container {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+
+    .hero .section-title,
+    .hero-text {
+        text-align: left;
+    }
+
+    .hero .btn {
+        margin-inline: 0;
+    }
+
+
+
+    /**
+       * ABOUT
+       */
+
+    .about .container {
+        grid-template-columns: 1fr 0.6fr;
+        align-items: center;
+        gap: 30px;
+    }
+
+
+    /**
+       * FOOTER
+       */
+
+    .footer .grid-list {
+        grid-template-columns: 1fr 0.6fr 0.6fr 1.2fr;
+    }
+
+}
+
+
+
+/**
+     * responsive for large than 1200px screen
+     */
+
+@media (min-width: 1200px) {
+
+    /**
+       * CUSTOM PROPERTY
+       */
+
+    :root {
+
+        /**
+         * typography
+         */
+
+        --fs-1: 6.5rem;
+
+        /**
+         * spacing
+         */
+
+        --section-padding: 120px;
+
+    }
+
+
+
+    /**
+       * REUSED STYLE
+       */
+
+    .container {
+        max-width: 1185px;
+    }
+
+    .shape {
+        display: block;
+    }
+
+    .about-content,
+    .video-card,
+    .blog {
+        position: relative;
+    }
+
+
+
+    /**
+       * HEADER
+       */
+
+    .header-action-btn:last-child,
+    .navbar .wrapper,
+    .overlay {
+        display: none;
+    }
+
+    .header.active {
+        transform: translateY(-100%);
+        animation: slideIn 0.5s ease forwards;
+    }
+
+    @keyframes slideIn {
+        0% {
+            transform: translateY(-100%);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    .navbar,
+    .navbar.active {
+        all: unset;
+    }
+
+    .navbar-list {
+        display: flex;
+        gap: 50px;
+        padding: 0;
+    }
+
+    .navbar-item:not(:last-child) {
+        border-block-end: none;
+    }
+
+    .navbar-link {
+        color: hsl(0, 0%, 9%);
+        padding-block: 20px;
+    }
+
+    .header .btn {
+        margin-inline-end: 0;
+    }
+
+
+
+    /**
+       * HERO
+       */
+
+    .hero {
+        padding-block-start: calc(var(--section-padding) + 120px);
+    }
+
+    .hero .container {
+        gap: 80px;
+    }
+
+    .hero-shape-2 {
+        top: -80px;
+        z-index: -1;
+    }
+
+
+
+    /**
+       * ABOUT
+       */
+
+    .about .container {
+        gap: 110px;
+    }
+
+    .about-banner .img-holder {
+        margin-inline: 0;
+    }
+
+    .about-shape-3 {
+        top: -20px;
+        left: -100px;
+        z-index: -1;
+    }
+
+    .about-content {
+        z-index: 1;
+    }
+
+    .about-shape-4 {
+        top: 30px;
+        right: -60px;
+        z-index: -1;
+    }
+
+}
