@@ -456,6 +456,7 @@ body {
     height: 200px;
     width: 200px;
     display: flex;
+    
     /* Use flexbox */
     flex-direction: column;
     /* Stack items vertically */
@@ -466,6 +467,14 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* Add box shadow for depth */
 }
+.play-game img {
+    max-width: 100%;
+    height: auto;
+  }
+   .play-page-card {
+    display: flex;
+    justify-content: space-between; /* Optional: Adjust alignment as needed */
+  }
 
 .play-game:hover {
     border: 2px solid #333;
