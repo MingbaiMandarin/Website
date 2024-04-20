@@ -1,0 +1,77 @@
+[
+    {
+        "image": "./assets/black.png",
+        "name": "black"
+    },
+    {
+        "image": "./assets/blue.png",
+        "name": "blue"
+    },
+    {
+        "image": "./assets/green.png",
+        "name": "green"
+    },
+    {
+        "image": "./assets/orange.png",
+        "name": "orange"
+    },
+    {
+        "image": "./assets/pink.png",
+        "name": "pink"
+    },
+    {
+        "image": "./assets/purple.png",
+        "name": "red"
+    },
+    {
+        "image": "./assets/white.png",
+        "name": "white"
+    },
+    {
+        "image": "./assets/yellow.png",
+        "name": "yellow"
+    },
+    {
+        "image": "./assets/purple.png",
+        "name": "purple"
+    },
+
+
+
+    {
+        "image": "./assets/black1.png",
+        "name": "black"
+    },
+    {
+        "image": "./assets/blue1.png",
+        "name": "blue"
+    },
+    {
+        "image": "./assets/green1.png",
+        "name": "green"
+    },
+    {
+        "image": "./assets/orange1.png",
+        "name": "orange"
+    },
+    {
+        "image": "./assets/pink1.png",
+        "name": "pink"
+    },
+    {
+        "image": "./assets/red1.png",
+        "name": "red"
+    },
+    {
+        "image": "./assets/white1.png",
+        "name": "white"
+    },
+    {
+        "image": "./assets/yellow1.png",
+        "name": "yellow"
+    },
+    {
+        "image": "./assets/purple1.png",
+        "name": "purple"
+    }
+]

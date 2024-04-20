@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake Game</title>
+<style>
+
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #81ecec; /* Light blue-green background */
+        font-family: Arial, sans-serif; /* Use Arial font */
+    }
+    .message-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 300px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    border: 2px solid #333;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.message-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.close-message-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+}
+
+
+    #gameContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f8a5c2; /* Light pink container background */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    #gameCanvas {
+        border: 2px solid #333;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .snake-head {
+        background-color: darkgreen;
+        border-radius: 50%; /* To make the snake head look like a circle */
+    }
+
+    .snake-segment {
+        background-color: green;
+        border-radius: 50%; /* To make the snake segments look like circles */
+    }
+
+    .food {
+        background-color: red;
+        border-radius: 50%; /* To make the food look like a circle */
+    }
+
+    #wordContainer {
+        text-align: center;
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    #scoreContainer {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    #menuContainer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgba(255, 118, 117, 0.8); /* Light coral menu background */
+        padding: 10px 0;
+        border-top: 2px solid #333;
+        border-radius: 10px 10px 0 0; /* Rounded corners at the top */
+    }
+
+    #menuContainer button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        background-color: #ff7675; /* Light coral button background */
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+    
+
+<div id="messageContainer" class="message-container">
+    <button id="closeMessageBtn" class="close-message-btn">&times;</button>
+    <p class="message-text">Choose the correct Chinese word by navigating the snake to the corresponding fruit using Arrow Keys. Avoid choosing the wrong word or biting yourself! <br> Press Start to Play</p>
+</div>
+    
+    
+<div id="gameContainer">
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="scoreContainer"></div>
+</div>
+<div id="wordContainer">Choose the correct word:
+    <strong>Correct:</strong> Hello
+    <strong>Wrong:</strong> Goodbye
+</div>
+<div id="menuContainer">
+    <button onclick="startGame()">Start</button>
+    <button onclick="pauseGame()">Pause</button>
+    <button onclick="endGame()">End</button>
+</div>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 20;
+    let snake = [{x: 10 * box, y: 10 * box}];
+    let score = 0;
+    let highScore = 0;
+    let direction = 'right';
+    let game;
+    //let currentWord;
+    let food;
+    let wrongFood;
+
+// Function to close the message container
+function closeMessage() {
+    const messageContainer = document.getElementById('messageContainer');
+    messageContainer.style.display = 'none';
+}
+
+// Attach click event to close button
+const closeBtn = document.getElementById('closeMessageBtn');
+closeBtn.addEventListener('click', closeMessage);
+
+
+    // Mandarin words
+    const words = [
+        {english: "Hello", mandarin: "你好"},
+        {english: "Goodbye", mandarin: "再见"},
+        {english: "Thank you", mandarin: "谢谢"},
+        {english: "Yes", mandarin: "是"},
+        {english: "No", mandarin: "不"},
+        {english: "Excuse me", mandarin: "请问"},
+        {english: "Goodbye", mandarin: "再见"},
+        {english: "Please", mandarin: "请"},
+        {english: "Sorry", mandarin: "对不起"},
+        {english: "It’s all right", mandarin: "没关系"},
+        {english: "Good morning", mandarin: "早上好"},
+        {english: "Good afternoon", mandarin: "下午好"},
+        {english: "Good evening", mandarin: "晚上好"},
+        
+
+        // Add more words as needed
+    ];
+
+//    let wrongWord;
+
+    // Function to generate new food with correct and wrong words
+    function generateFood() {
+        // Select a random word for correct food
+        const randomIndex = Math.floor(Math.random() * words.length);
+        currentWord = words[randomIndex];
+        
+        // Select a random word for wrong food (ensure it's different from the correct word)
+        do {
+            wrongWord = words[Math.floor(Math.random() * words.length)];
+        } while (wrongWord === currentWord);
+
+        // Set positions for both foods
+        food = {x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box};
+        wrongFood = {x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box};
+    }
+
+    // Function to draw the wrong word on the wrong food
+    function drawWrongFood() {
+    const textWidth = ctx.measureText(wrongWord.mandarin).width;
+    const textHeight = parseInt(ctx.font);
+
+    const wrongFoodSize = Math.max(textWidth, textHeight) + 10; // Add some padding
+    const halfWrongFoodSize = wrongFoodSize / 2;
+
+    ctx.fillStyle = 'red'; // Change color to match correct food
+    ctx.beginPath();
+    ctx.arc(wrongFood.x + box / 2, wrongFood.y + box / 2, halfWrongFoodSize, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = '#333'; /* Dark gray */
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(wrongWord.mandarin, wrongFood.x + box / 2, wrongFood.y + box / 2);
+}
+
+    // Update the word container to show both correct and wrong words
+    function updateWordContainer() {
+        const wordContainer = document.getElementById('wordContainer');
+        wordContainer.innerHTML = game ? `
+            <p>Choose the correct word:</p>
+            <p><strong>Correct:</strong> ${currentWord.english}</p>
+            <p><strong>Wrong:</strong> ${wrongWord.english}</p>
+        ` : '';
+    }
+
+    // Function to draw snake
+    function drawSnake() {
+        snake.forEach((segment, index) => {
+            ctx.fillStyle = index === 0 ? 'darkgreen' : 'green';
+            ctx.beginPath();
+            ctx.arc(segment.x + box / 2, segment.y + box / 2, box / 2, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+    }
+
+    // Function to draw food
+    function drawFood() {
+        const textWidth = ctx.measureText(currentWord.mandarin).width;
+        const textHeight = parseInt(ctx.font);
+
+        const foodSize = Math.max(textWidth, textHeight) + 10; // Add some padding
+        const halfFoodSize = foodSize / 2;
+
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(food.x + box / 2, food.y + box / 2, halfFoodSize, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    // Function to draw score
+    function drawScore() {
+        const scoreContainer = document.getElementById('scoreContainer');
+        scoreContainer.textContent = `Score: ${score} | High Score: ${highScore}`;
+    }
+
+    // Function to move snake
+    function moveSnake() {
+        const head = {x: snake[0].x, y: snake[0].y};
+
+        // Change direction
+        if (direction === 'left') head.x -= box;
+        if (direction === 'right') head.x += box;
+        if (direction === 'up') head.y -= box;
+        if (direction === 'down') head.y += box;
+
+        // Wrap around canvas
+        if (head.x < 0) head.x = canvas.width - box;
+        if (head.x >= canvas.width) head.x = 0;
+        if (head.y < 0) head.y = canvas.height - box;
+        if (head.y >= canvas.height) head.y = 0;
+
+        // Check collision with food
+        if (head.x === food.x && head.y === food.y) {
+            score++;
+            if (score > highScore) {
+                highScore = score;
+            }
+            generateFood();
+            updateWordContainer();
+        } else {
+            snake.pop();
+        }
+
+        snake.unshift(head);
+    }
+
+    // Function to check collision with wall or self
+    function checkCollision() {
+        for (let i = 1; i < snake.length; i++) {
+            if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+                clearInterval(game);
+                alert('Game Over! You bit yourself.');
+            }
+        }
+
+        // Check collision with wrong food
+        if (snake[0].x === wrongFood.x && snake[0].y === wrongFood.y) {
+            clearInterval(game);
+            alert('Game Over! You chose the wrong word.');
+        }
+    }
+
+    // Function to render game
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawSnake();
+        drawFood();
+        drawScore();
+        moveSnake();
+        checkCollision();
+        drawWrongFood(); // Draw the wrong word on the wrong food
+        drawWordOnFood(); // Draw the word on the food
+    }
+
+    // Function to draw the word on the food
+// Function to draw the word on the food
+// Function to draw the word on the food
+// Function to draw the word on the food
+function drawWordOnFood() {
+    const textWidth = ctx.measureText(currentWord.mandarin).width;
+    const textHeight = parseInt(ctx.font);
+
+    const foodSize = Math.max(textWidth, textHeight) + 10; // Add some padding
+    const halfFoodSize = foodSize / 2;
+
+    ctx.fillStyle = 'red'; // Change color to differentiate from wrong food
+    ctx.beginPath();
+    ctx.arc(food.x + box / 2, food.y + box / 2, halfFoodSize, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = '#333'; /* Dark gray */
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(currentWord.mandarin, food.x + box / 2, food.y + box / 2);
+}
+
+
+
+    // Function to start the game
+    function startGame() {
+        if (!game) {
+            generateFood(); // Generate initial food
+            game = setInterval(render, 100);
+        }
+    }
+
+    // Function to pause the game
+    function pauseGame() {
+        clearInterval(game);
+        game = null;
+    }
+
+    // Function to end the game
+    function endGame() {
+        clearInterval(game);
+        game = null;
+        snake = [{x: 10 * box, y: 10 * box}];
+        score = 0;
+        direction = 'right';
+        updateWordContainer();
+        generateFood();
+        render();
+    }
+
+    // Handle keyboard input
+    document.addEventListener('keydown', event => {
+        if (!game) return; // Do nothing if the game is not running
+        if (event.keyCode === 37 && direction !== 'right') direction = 'left';
+        if (event.keyCode === 38 && direction !== 'down') direction = 'up';
+        if (event.keyCode === 39 && direction !== 'left') direction = 'right';
+        if (event.keyCode === 40 && direction !== 'up') direction = 'down';
+    });
+
+// Initialize currentWord and wrongWord variables with default values
+let currentWord = { english: "Hello", mandarin: "你好" };
+let wrongWord = { english: "Goodbye", mandarin: "再见" };
+
+// Function to update the word container to show both correct and wrong words
+function updateWordContainer() {
+    const wordContainer = document.getElementById('wordContainer');
+    wordContainer.innerHTML = `
+        <p>Choose the correct word:</p>
+        <p><strong>Correct:</strong> ${currentWord.english}</p>
+        <p><strong>Wrong:</strong> ${wrongWord.english}</p>
+    `;
+}
+
+// Call updateWordContainer function when the page loads
+updateWordContainer(); // Add this line to call the function when the page loads
+
+
+// Call updateWordContainer function when the page loads
+updateWordContainer(); // Add this line to call the function when the page loads
+
+
+// Function to start the game
+function startGame() {
+    const messageContainer = document.getElementById('messageContainer');
+    messageContainer.style.display = 'none'; // Hide the message container
+    if (!game) {
+        generateFood(); // Generate initial food
+        game = setInterval(render, 100);
+    }
+}
+
+</script>
+</body>
+</html>
