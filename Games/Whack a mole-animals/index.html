@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Whack a Mole!</title>
+</head>
+
+<body>
+    <h1>Whack-a-mole!</h1>
+    <span class="score">0</span>
+    <button onClick="startGame()">Start!</button>
+    <button id="pauseButton" onClick="pauseGame()">Pause</button>
+    <button id="resumeButton" onClick="resumeGame()">Resume</button>
+    <div class="card">
+        <div class="card-content">
+            <h2>Welcome</h2>
+        </div>
+    </div>
+
+    <div class="game">
+        <div class="hole hole1">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Dog</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole2">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Cat</h2> <!-- English animal name -->
+            </div>
+        </div>
+        <!-- Add more holes for other animals -->
+        <div class="hole hole3">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Rabbit</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole4">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Rat</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole5">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Bird</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole6">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Fish</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole7">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Horse</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole8">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Monkey</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole9">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Lion</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole10">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Elephant</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole11">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Cow</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+        <div class="hole hole12">
+            <div class="mole"></div>
+            <div class="card-content">
+                <h2>Pig</h2> <!-- English animal name -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const holes = document.querySelectorAll('.hole');
+        const scoreBoard = document.querySelector('.score');
+        const moles = document.querySelectorAll('.mole');
+        const cardTitle = document.querySelector('.card-content h2');
+        let lastHole;
+        let timeUp = false;
+        let score = 0;
+        let gameInterval; // Variable to store the game interval
+
+        // Animal names and their corresponding Chinese translations
+        const chineseAnimals = ['狗', '猫', '兔子', '老鼠', '鸟', '鱼', '马', '猴子', '狮子', '大象', '牛', '猪'];
+
+        function randomTime(min, max) {
+            return Math.round(Math.random() * (max - min) + min);
+        }
+
+        function randomHole(holes) {
+            const index = Math.floor(Math.random() * holes.length);
+            const hole = holes[index];
+
+            if (hole === lastHole) {
+                return randomHole(holes);
+            }
+            lastHole = hole;
+            return hole;
+        }
+
+        function peep() {
+            const time = randomTime(750, 1000);
+            const hole = randomHole(holes);
+            hole.classList.add('up');
+            setTimeout(() => {
+                hole.classList.remove('up');
+                if (!timeUp) {
+                    peep();
+                }
+            }, time);
+        }
+
+        function startGame() {
+            scoreBoard.textContent = 0;
+            timeUp = false;
+            score = 0;
+            peep();
+            gameInterval = setInterval(() => {
+                timeUp = true;
+                clearInterval(gameInterval);
+            }, 30000);
+            updateAnimalName(); // Update animal name when starting the game
+        }
+
+        function pauseGame() {
+            clearInterval(gameInterval);
+            timeUp = true;
+        }
+
+        function resumeGame() {
+            timeUp = false;
+            peep();
+            gameInterval = setInterval(() => {
+                timeUp = true;
+                clearInterval(gameInterval);
+            }, 30000);
+        }
+
+        function wack(e) {
+            if (!e.isTrusted) return;
+            const moleAnimal = this.parentNode.querySelector('.card-content h2').textContent.trim();
+            const currentAnimal = cardTitle.textContent.trim();
+            console.log("Mole Animal:", moleAnimal);
+            console.log("Current Animal:", currentAnimal);
+            if (moleAnimal === currentAnimal) {
+                score++;
+                console.log("Score:", score); // Check if score is being incremented correctly
+                scoreBoard.textContent = score;
+            } else {
+                console.log("Incorrect hit!"); // Check if incorrect hits are being detected
+            }
+            this.parentNode.classList.remove('up');
+            updateAnimalName(); // Update animal name after a successful hit or a miss
+        }
+
+        function updateAnimalName() {
+            const randomIndex = Math.floor(Math.random() * chineseAnimals.length);
+            const randomAnimal = chineseAnimals[randomIndex];
+            cardTitle.textContent = randomAnimal; // Update card title with a random animal name
+        }
+
+        moles.forEach((mole) => mole.addEventListener('click', wack));
+    </script>
+</body>
+
+</html>
