@@ -15,12 +15,16 @@
     <button onClick="startGame()">Start!</button>
     <button id="pauseButton" onClick="pauseGame()">Pause</button>
     <button id="resumeButton" onClick="resumeGame()">Resume</button>
+    <div id="timer">Time Left: 60s</div> <!-- Timer display -->
     <div class="card">
         <div class="card-content">
-            <h2>Welcome</h2>
+            <h2 id="current-month">欢迎</h2>
+            <h3 id="current-pronunciation">Huānyíng</h3>
         </div>
     </div>
-
+    <button id="soundButton" onclick="playSound()">
+        <img src="speaker-filled-audio-tool_59284.png" alt="Sound Icon" width="30">
+    </button>
     <div class="game">
         <div class="hole hole1">
             <div class="mole"></div>
@@ -107,17 +111,39 @@
 
     </div>
 
+    <!-- Add audio elements for each Chinese month -->
+    <audio id="audio-一月" src="audio/January.mp3"></audio>
+    <audio id="audio-二月" src="audio/Feb.mp3"></audio>
+    <audio id="audio-三月" src="audio/March.mp3"></audio>
+    <audio id="audio-四月" src="audio/apr.mp3"></audio>
+    <audio id="audio-五月" src="audio/may.mp3"></audio>
+    <audio id="audio-六月" src="audio/June.mp3"></audio>
+    <audio id="audio-七月" src="audio/July.mp3"></audio>
+    <audio id="audio-八月" src="audio/August.mp3"></audio>
+    <audio id="audio-九月" src="audio/September.mp3"></audio>
+    <audio id="audio-十月" src="audio/oct.mp3"></audio>
+    <audio id="audio-十一月" src="audio/November.mp3"></audio>
+    <audio id="audio-十二月" src="audio/Dec.mp3"></audio>
+
     <script>
         const holes = document.querySelectorAll('.hole');
         const scoreBoard = document.querySelector('.score');
         const moles = document.querySelectorAll('.mole');
-        const cardTitle = document.querySelector('.card-content h2');
+        const currentMonthElement = document.getElementById('current-month');
+        const currentPronunciationElement = document.getElementById('current-pronunciation');
+        const timerDisplay = document.getElementById('timer');
         let lastHole;
         let timeUp = false;
         let score = 0;
         let gameInterval; // Variable to store the game interval
+        let countdown; // Variable to store the countdown interval
+        let timeLeft = 60; // Initial time
 
+        const englishMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         const chineseMonths = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+        const chinesePronunciations = ['Yī yuè', 'Èr yuè', 'Sān yuè', 'Sì yuè', 'Wǔ yuè', 'Liù yuè', 'Qī yuè', 'Bā yuè', 'Jiǔ yuè', 'Shí yuè', 'Shíyī yuè', 'Shí’èr yuè'];
+
+        const holeCooldowns = {}; // Track cooldown status for each hole
 
         function randomTime(min, max) {
             return Math.round(Math.random() * (max - min) + min);
@@ -127,7 +153,7 @@
             const index = Math.floor(Math.random() * holes.length);
             const hole = holes[index];
 
-            if (hole === lastHole) {
+            if (hole === lastHole || holeCooldowns[hole.className]) {
                 return randomHole(holes);
             }
             lastHole = hole;
@@ -150,16 +176,21 @@
             scoreBoard.textContent = 0;
             timeUp = false;
             score = 0;
+            timeLeft = 60;
+            timerDisplay.textContent = `Time Left: ${timeLeft}s`; // Reset and display initial time
             peep();
             gameInterval = setInterval(() => {
                 timeUp = true;
                 clearInterval(gameInterval);
-            }, 30000);
+                clearInterval(countdown);
+            }, 60000); // 60 seconds interval for starting the game
             updateMonthName(); // Update month name when starting the game
+            countdown = setInterval(updateTimer, 1000); // Start countdown timer
         }
 
         function pauseGame() {
             clearInterval(gameInterval);
+            clearInterval(countdown);
             timeUp = true;
         }
 
@@ -169,34 +200,61 @@
             gameInterval = setInterval(() => {
                 timeUp = true;
                 clearInterval(gameInterval);
-            }, 30000);
+                clearInterval(countdown);
+            }, timeLeft * 1000); // Continue game for the remaining time
+            countdown = setInterval(updateTimer, 1000); // Resume countdown timer
         }
+
+        function updateTimer() {
+            timeLeft--;
+            timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+            }
+        }
+
         function wack(e) {
             if (!e.isTrusted) return;
             const moleMonth = this.parentNode.querySelector('.card-content h2').textContent.trim();
-            const currentMonth = cardTitle.textContent.trim();
+            const currentMonthChinese = currentMonthElement.textContent.trim(); // Compare with Chinese month name
+            const index = chineseMonths.indexOf(currentMonthChinese);
+            const currentMonthEnglish = englishMonths[index]; // Get the corresponding English month name
             console.log("Mole Month:", moleMonth);
-            console.log("Current Month:", currentMonth);
-            if (moleMonth === currentMonth) {
+            console.log("Current Month:", currentMonthEnglish);
+            if (moleMonth === currentMonthEnglish) {
                 score++;
                 console.log("Score:", score); // Check if score is being incremented correctly
                 scoreBoard.textContent = score;
+                this.parentNode.classList.remove('up');
+                holeCooldowns[this.parentNode.className] = true; // Set cooldown status for the hole
+                setTimeout(() => {
+                    holeCooldowns[this.parentNode.className] = false; // Reset cooldown status after a delay
+                }, 1000); // Adjust cooldown duration as needed
+                updateMonthName(); // Update month name when correct mole is clicked
             } else {
-                console.log("Incorrect hit!"); // Check if incorrect hits are being detected
+                console.log("Wrong month!");
             }
-            this.parentNode.classList.remove('up');
-            updateMonthName(); // Update month name after a successful hit or a miss
         }
 
+        moles.forEach(mole => mole.addEventListener('click', wack));
 
         function updateMonthName() {
-            const randomIndex = Math.floor(Math.random() * chineseMonths.length);
-            const randomMonth = chineseMonths[randomIndex];
-            cardTitle.textContent = randomMonth; // Update card title with a random month name
+            const index = Math.floor(Math.random() * 12); // Random index for month
+            const chineseMonth = chineseMonths[index];
+            const pronunciation = chinesePronunciations[index];
+            currentMonthElement.textContent = chineseMonth;
+            currentPronunciationElement.textContent = pronunciation;
         }
 
-        moles.forEach((mole) => mole.addEventListener('click', wack));
+        function playSound() {
+            const currentMonthChinese = currentMonthElement.textContent.trim();
+            const audioElement = document.getElementById(`audio-${currentMonthChinese}`);
+            if (audioElement) {
+                audioElement.play();
+            }
+        }
     </script>
 </body>
 
 </html>
+

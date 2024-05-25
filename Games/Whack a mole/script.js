@@ -44,7 +44,7 @@ function startGame() {
     gameInterval = setInterval(() => {
         timeUp = true;
         clearInterval(gameInterval);
-    }, 30000);
+    }, 60000); // 60 seconds interval for starting the game
     updateMonthName(); // Update month name when starting the game
 }
 
@@ -59,7 +59,7 @@ function resumeGame() {
     gameInterval = setInterval(() => {
         timeUp = true;
         clearInterval(gameInterval);
-    }, 30000);
+    }, 60000); // 60 seconds interval for resuming the game
 }
 
 function wack(e) {
@@ -88,4 +88,5 @@ function playAudio() {
 }
 
 moles.forEach((mole) => mole.addEventListener('click', wack));
+
 
