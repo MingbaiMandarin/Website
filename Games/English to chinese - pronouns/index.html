@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whac-A-Word Mandarin</title>
+    <title>WORD WISE: ENGLISH -> CHINESE</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             width: 80%;
-            max-width: 600px;
+            max-width: 700px;
             transition: filter 0.3s;
         }
 
@@ -56,14 +56,14 @@
         }
 
         .word-box {
-            width: 150px;
-            height: 70px;
+            width: 190px;
+            height: 80px;
             line-height: 70px;
             border: 2px solid #4CAF50;
             margin: 10px;
             display: inline-block;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 20px;
             background-color: #F2C14E;
             color: #333;
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -163,7 +163,7 @@
 
 <body>
     <div id="container">
-        <h1>Whac-A-Word Mandarin</h1>
+        <h1>WORD WISE: ENGLISH -> CHINESE</h1>
         <div id="game-container">
             <div id="score">Score: 0</div>
             <div id="word-display"></div>
@@ -183,25 +183,25 @@
 
     <script>
         const words = [
-            { mandarin: "我", english: "I, me", audio: "./audio/i_me.mp3" },
-            { mandarin: "你", english: "You", audio: "./audio/you.mp3" },
-            { mandarin: "您", english: "You (formal)", audio: "./audio/you_formal.mp3" },
-            { mandarin: "他", english: "He, Him", audio: "./audio/he_him.mp3" },
-            { mandarin: "她", english: "She, Her", audio: "./audio/she_her.mp3" },
-            { mandarin: "它", english: "It", audio: "./audio/it.mp3" },
-            { mandarin: "我们", english: "We", audio: "./audio/we.mp3" },
-            { mandarin: "你们", english: "You (plural)", audio: "./audio/you_plural.mp3" },
-            { mandarin: "他们", english: "They", audio: "./audio/they.mp3" },
-            { mandarin: "她们", english: "They", audio: "./audio/they.mp3" },
-            { mandarin: "它们", english: "They", audio: "./audio/they.mp3" },
-            { mandarin: "我们的", english: "Ours", audio: "./audio/ours.mp3" },
-            { mandarin: "你们的", english: "Yours (plural)", audio: "./audio/yours_plural.mp3" },
-            { mandarin: "他们的", english: "Theirs", audio: "./audio/theirs.mp3" },
-            { mandarin: "我的", english: "My, mine", audio: "./audio/my_mine.mp3" },
-            { mandarin: "你的", english: "Your, yours", audio: "./audio/your_yours.mp3" },
-            { mandarin: "他的", english: "His", audio: "./audio/his.mp3" },
-            { mandarin: "她的", english: "Her, hers", audio: "./audio/her_hers.mp3" },
-            { mandarin: "它的", english: "Its", audio: "./audio/its.mp3" }
+            { mandarin: "我", english: "I, me", audio: "./audio/i_me.mp3", pinyin: "Wǒ" },
+            { mandarin: "你", english: "You", audio: "./audio/you.mp3", pinyin: "Nǐ" },
+            { mandarin: "您", english: "You (formal)", audio: "./audio/you_formal.mp3", pinyin: "Nín" },
+            { mandarin: "他", english: "He, Him", audio: "./audio/he_him.mp3", pinyin: "Tā" },
+            { mandarin: "她", english: "She, Her", audio: "./audio/she_her.mp3", pinyin: "Tā" },
+            { mandarin: "它", english: "It", audio: "./audio/it.mp3", pinyin: "Tā" },
+            { mandarin: "我们", english: "We", audio: "./audio/we.mp3", pinyin: "Wǒmen" },
+            { mandarin: "你们", english: "You (plural)", audio: "./audio/you_plural.mp3", pinyin: "Nǐmen" },
+            { mandarin: "他们", english: "They", audio: "./audio/they.mp3", pinyin: "Tāmen" },
+            { mandarin: "她们", english: "They", audio: "./audio/they.mp3", pinyin: "Tāmen" },
+            { mandarin: "它们", english: "They", audio: "./audio/they.mp3", pinyin: "Tāmen" },
+            { mandarin: "我们的", english: "Ours", audio: "./audio/ours.mp3", pinyin: "Wǒmen de" },
+            { mandarin: "你们的", english: "Yours (plural)", audio: "./audio/yours_plural.mp3", pinyin: "Nǐmen de" },
+            { mandarin: "他们的", english: "Theirs", audio: "./audio/theirs.mp3", pinyin: "Tāmen de" },
+            { mandarin: "我的", english: "My, mine", audio: "./audio/my_mine.mp3", pinyin: "Wǒ de" },
+            { mandarin: "你的", english: "Your, yours", audio: "./audio/your_yours.mp3", pinyin: "Nǐ de" },
+            { mandarin: "他的", english: "His", audio: "./audio/his.mp3", pinyin: "Tā de" },
+            { mandarin: "她的", english: "Her, hers", audio: "./audio/her_hers.mp3", pinyin: "Tā de, tā de" },
+            { mandarin: "它的", english: "Its", audio: "./audio/its.mp3", pinyin: "Tā de" }
         ];
 
         let score = 0;
@@ -249,7 +249,7 @@
             shuffledOptions.forEach((w) => {
                 const wordBox = document.createElement("div");
                 wordBox.classList.add("word-box");
-                wordBox.textContent = w.mandarin;
+                wordBox.innerHTML = `${w.mandarin} (${w.pinyin})`;
                 wordBox.addEventListener("click", () => {
                     if (w === word) {
                         score += 100;

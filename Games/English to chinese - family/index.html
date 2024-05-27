@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whac-A-Word Mandarin</title>
+    <title>WORD WISE: ENGLISH -> CHINESE</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -163,7 +163,7 @@
 
 <body>
     <div id="container">
-        <h1>Whac-A-Word Mandarin</h1>
+        <h1>WORD WISE: ENGLISH -> CHINESE</h1>
         <div id="game-container">
             <div id="score">Score: 0</div>
             <div id="word-display"></div>
@@ -183,17 +183,17 @@
 
     <script>
         const words = [
-            { english: "Mom", mandarin: "妈妈", audio: "./Family audio/mother.mp3" },
-            { english: "Dad", mandarin: "爸爸", audio: "./Family audio/father.mp3" },
-            { english: "Older brother", mandarin: "哥哥", audio: "./Family audio/elder_brother.mp3" },
-            { english: "Older sister", mandarin: "姐姐", audio: "./Family audio/elder_sister.mp3" },
-            { english: "Younger brother", mandarin: "弟弟", audio: "./Family audio/younger_brother.mp3" },
-            { english: "Younger sister", mandarin: "妹妹", audio: "./Family audio/younger_sister.mp3" },
-            { english: "Son", mandarin: "儿子", audio: "./Family audio/son.mp3" },
-            { english: "Daughter", mandarin: "女儿", audio: "./Family audio/daughter.mp3" },
-            { english: "Grandfather", mandarin: "爷爷 ", audio: "./Family audio/grandfather.mp3" },
-            { english: "Grandmother", mandarin: "奶奶 ", audio: "./Family audio/grandmother.mp3" },
-            { english: "family", mandarin: "家庭", audio: "./Family audio/family.mp3" }
+            { english: "Mom", mandarin: "妈妈", audio: "./Family audio/mother.mp3", pinyin: "Māmā" },
+            { english: "Dad", mandarin: "爸爸", audio: "./Family audio/father.mp3", pinyin: "Bàba" },
+            { english: "Older brother", mandarin: "哥哥", audio: "./Family audio/elder_brother.mp3", pinyin: "Gēgē" },
+            { english: "Older sister", mandarin: "姐姐", audio: "./Family audio/elder_sister.mp3", pinyin: "Jiějiě" },
+            { english: "Younger brother", mandarin: "弟弟", audio: "./Family audio/younger_brother.mp3", pinyin: "Dìdì" },
+            { english: "Younger sister", mandarin: "妹妹", audio: "./Family audio/younger_sister.mp3", pinyin: "Mèimei" },
+            { english: "Son", mandarin: "儿子", audio: "./Family audio/son.mp3", pinyin: "Érzi" },
+            { english: "Daughter", mandarin: "女儿", audio: "./Family audio/daughter.mp3", pinyin: "Nǚ'ér" },
+            { english: "Grandfather", mandarin: "爷爷 ", audio: "./Family audio/grandfather.mp3", pinyin: "Yéyé" },
+            { english: "Grandmother", mandarin: "奶奶 ", audio: "./Family audio/grandmother.mp3", pinyin: "Nǎinai" },
+            { english: "Family/Home", mandarin: "家", audio: "./Family audio/family.mp3", pinyin: "Jiā" }
         ];
 
         let score = 0;
@@ -216,7 +216,7 @@
         function displayNextWord() {
             currentWordIndex = Math.floor(Math.random() * words.length);
             const word = words[currentWordIndex];
-            wordDisplay.textContent = word.english;
+            wordDisplay.innerHTML = `${word.english}`;
 
             const audio = document.getElementById("audio");
             audio.src = word.audio;
@@ -241,7 +241,7 @@
             shuffledOptions.forEach((w) => {
                 const wordBox = document.createElement("div");
                 wordBox.classList.add("word-box");
-                wordBox.textContent = w.mandarin;
+                wordBox.innerHTML = `${w.mandarin} (${w.pinyin})`;
                 wordBox.addEventListener("click", () => {
                     if (w === word) {
                         score += 100;

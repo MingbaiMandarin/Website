@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whac-A-Word Mandarin</title>
+    <title>WORD WISE: ENGLISH -> CHINESE</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             width: 80%;
-            max-width: 600px;
+            max-width: 800px;
             transition: filter 0.3s;
         }
 
@@ -56,14 +56,14 @@
         }
 
         .word-box {
-            width: 150px;
-            height: 70px;
+            width: 220px;
+            height: 110;
             line-height: 70px;
             border: 2px solid #4CAF50;
             margin: 10px;
             display: inline-block;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 20px;
             background-color: #F2C14E;
             color: #333;
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -138,6 +138,27 @@
             cursor: pointer;
         }
 
+        @media only screen and (max-width: 1024px) {
+            #container {
+                width: 95%;
+            }
+
+            .word-box {
+                width: 180px;
+                height: 90px;
+                line-height: 90px;
+                font-size: 18px;
+            }
+
+            #word-display {
+                font-size: 36px;
+            }
+
+            #score {
+                font-size: 30px;
+            }
+        }
+
         @media only screen and (max-width: 600px) {
             #container {
                 width: 90%;
@@ -163,7 +184,7 @@
 
 <body>
     <div id="container">
-        <h1>Whac-A-Word Mandarin</h1>
+        <h1>WORD WISE: ENGLISH -> CHINESE</h1>
         <div id="game-container">
             <div id="score">Score: 0</div>
             <div id="word-display"></div>
@@ -183,18 +204,18 @@
 
     <script>
         const words = [
-            { mandarin: "你好", english: "Hello", audio: "./audio/hello.mp3" },
-            { mandarin: "早上好", english: "Good morning", audio: "./audio/good_morning.mp3" },
-            { mandarin: "下午好", english: "Good afternoon", audio: "./audio/good_afternoon.mp3" },
-            { mandarin: "晚上好", english: "Good evening", audio: "./audio/good_evening.mp3" },
-            { mandarin: "请问", english: "Excuse me", audio: "./audio/excuse_me.mp3" },
-            { mandarin: "喂", english: "hello (on the phone)", audio: "./audio/hello_phone.mp3" },
-            { mandarin: "谢谢", english: "thanks", audio: "./audio/thanks.mp3" },
-            { mandarin: "不客气", english: "you’re welcome", audio: "./audio/youre_welcome.mp3" },
-            { mandarin: "再见", english: "goodbye", audio: "./audio/goodbye.mp3" },
-            { mandarin: "请", english: "please…", audio: "./audio/please.mp3" },
-            { mandarin: "对不起", english: "sorry", audio: "./audio/sorry.mp3" },
-            { mandarin: "没关系", english: "it’s all right", audio: "./audio/its_all_right.mp3" }
+            { mandarin: "你好", english: "Hello", audio: "./audio/hello.mp3", pinyin: "Nǐ hǎo" },
+            { mandarin: "早上好", english: "Good morning", audio: "./audio/good_morning.mp3", pinyin: "Zǎoshang hǎo" },
+            { mandarin: "下午好", english: "Good afternoon", audio: "./audio/good_afternoon.mp3", pinyin: "Xiàwǔ hǎo" },
+            { mandarin: "晚上好", english: "Good evening", audio: "./audio/good_evening.mp3", pinyin: "Wǎnshàng hǎo" },
+            { mandarin: "请问", english: "Excuse me", audio: "./audio/excuse_me.mp3", pinyin: "Qǐngwèn" },
+            { mandarin: "喂", english: "hello (on the phone)", audio: "./audio/hello_phone.mp3", pinyin: "Wèi" },
+            { mandarin: "谢谢", english: "thanks", audio: "./audio/thanks.mp3", pinyin: "Xièxiè" },
+            { mandarin: "不客气", english: "you’re welcome", audio: "./audio/youre_welcome.mp3", pinyin: "Bù kèqì" },
+            { mandarin: "再见", english: "goodbye", audio: "./audio/goodbye.mp3", pinyin: "Zàijiàn" },
+            { mandarin: "请", english: "please…", audio: "./audio/please.mp3", pinyin: "Qǐng" },
+            { mandarin: "对不起", english: "sorry", audio: "./audio/sorry.mp3", pinyin: "Duìbùqǐ" },
+            { mandarin: "没关系", english: "it’s all right", audio: "./audio/its_all_right.mp3", pinyin: "Méiguānxì" }
         ];
 
         let score = 0;
@@ -242,7 +263,7 @@
             shuffledOptions.forEach((w) => {
                 const wordBox = document.createElement("div");
                 wordBox.classList.add("word-box");
-                wordBox.textContent = w.mandarin;
+                wordBox.innerHTML = `${w.mandarin} (${w.pinyin})`;
                 wordBox.addEventListener("click", () => {
                     if (w === word) {
                         score += 100;
