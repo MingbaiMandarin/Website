@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WORD WISE: ENGLISH -> CHINESE</title>
+    <title>WORD WISE: ENGLISH TO CHINESE</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -163,7 +163,7 @@
 
 <body>
     <div id="container">
-        <h1>WORD WISE: ENGLISH -> CHINESE</h1>
+        <h1>WORD WISE: ENGLISH TO CHINESE</h1>
         <div id="game-container">
             <div id="score">Score: 0</div>
             <div id="word-display"></div>
@@ -241,7 +241,7 @@
             shuffledOptions.forEach((w) => {
                 const wordBox = document.createElement("div");
                 wordBox.classList.add("word-box");
-                wordBox.innerHTML = `${w.mandarin} (${w.pinyin})`;
+                wordBox.innerHTML = `${w.mandarin}`;
                 wordBox.addEventListener("click", () => {
                     if (w === word) {
                         score += 100;
