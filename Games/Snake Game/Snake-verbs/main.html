@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
             background-size: cover;
             font-family: Arial, sans-serif;
         }
+
         .message-container {
             position: absolute;
             top: 50%;
@@ -30,22 +32,26 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
+
         #gameContainer {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
         }
+
         #canvas {
             background-color: #f8a5c2;
             display: block;
             margin: 0 auto;
         }
+
         #controls {
             display: flex;
             justify-content: center;
             margin-top: 10px;
         }
+
         .control-button {
             padding: 10px;
             margin: 5px;
@@ -54,9 +60,11 @@
             border: none;
             cursor: pointer;
         }
+
         .control-button:active {
             background-color: #45a049;
         }
+
         #messageContainer {
             display: block;
             background-color: lightyellow;
@@ -67,6 +75,7 @@
             width: 90%;
             max-width: 500px;
         }
+
         #messageContainer button {
             background-color: #4CAF50;
             color: white;
@@ -74,6 +83,7 @@
             cursor: pointer;
             padding: 5px 10px;
         }
+
         #scoreContainer {
             font-size: 18px;
             background-color: #0aeafa;
@@ -82,6 +92,7 @@
             top: 350px;
             right: 440px;
         }
+
         #wordContainer {
             font-size: 18px;
             margin-top: 10px;
@@ -91,8 +102,9 @@
             position: absolute;
             top: 400px;
             right: 350px;
-            
+
         }
+
         #arrowKeysContainer {
             display: grid;
             grid-template-columns: repeat(3, 50px);
@@ -101,6 +113,7 @@
             justify-content: center;
             margin-top: 10px;
         }
+
         .arrow-key {
             width: 50px;
             height: 50px;
@@ -113,180 +126,190 @@
             align-items: center;
             font-size: 24px;
         }
+
         .arrow-key:active {
             background-color: #0dbded;
         }
     </style>
 </head>
+
 <body>
-<div id="gameContainer">
-    <canvas id="canvas" width="608" height="608"></canvas>
-    <div id="controls">
-        <button class="control-button" onclick="startGame()">Start</button>
-        <button class="control-button" onclick="pauseGame()">End</button>
+    <div id="gameContainer">
+        <canvas id="canvas" width="608" height="608"></canvas>
+        <div id="controls">
+            <button class="control-button" onclick="startGame()">Start</button>
+            <button class="control-button" onclick="pauseGame()">End</button>
+        </div>
+        <div id="messageContainer" class="message-container">
+            <p class="message-text">Choose the correct Chinese word by navigating the snake to the corresponding fruit
+                using Arrow Keys. Avoid choosing the wrong word or biting yourself! <br> Press Start to Play</p>
+            <button id="closeMessageBtn" class="close-message-btn">&times;</button>
+        </div>
+        <div id="scoreContainer">Score: 0</div>
+        <div id="wordContainer"><strong>Choose the Word:</strong></div>
+        <div id="arrowKeysContainer">
+            <button class="arrow-key" style="visibility: hidden;"></button>
+            <button class="arrow-key" onclick="changeDirection('ArrowUp')">↑</button>
+            <button class="arrow-key" style="visibility: hidden;"></button>
+            <button class="arrow-key" onclick="changeDirection('ArrowLeft')">←</button>
+            <button class="arrow-key" onclick="changeDirection('ArrowDown')">↓</button>
+            <button class="arrow-key" onclick="changeDirection('ArrowRight')">→</button>
+        </div>
     </div>
-    <div id="messageContainer" class="message-container">
-        <p class="message-text">Choose the correct Chinese word by navigating the snake to the corresponding fruit using Arrow Keys. Avoid choosing the wrong word or biting yourself! <br> Press Start to Play</p>
-        <button id="closeMessageBtn" class="close-message-btn">&times;</button>
-    </div>
-    <div id="scoreContainer">Score: 0</div>
-    <div id="wordContainer"><strong>Choose the Word:</strong></div>
-    <div id="arrowKeysContainer">
-        <button class="arrow-key" style="visibility: hidden;"></button>
-        <button class="arrow-key" onclick="changeDirection('ArrowUp')">↑</button>
-        <button class="arrow-key" style="visibility: hidden;"></button>
-        <button class="arrow-key" onclick="changeDirection('ArrowLeft')">←</button>
-        <button class="arrow-key" onclick="changeDirection('ArrowDown')">↓</button>
-        <button class="arrow-key" onclick="changeDirection('ArrowRight')">→</button>
-    </div>
-</div>
 
-<script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const box = 32;
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const box = 32;
 
-    let snake = [{x: 9 * box, y: 10 * box}];
-    let score = 0;
-    let direction = 'right';
-    let game;
-    let currentWord;
-    let food;
-    let wrongFood;
-    let wrongWord;
+        let snake = [{ x: 9 * box, y: 10 * box }];
+        let score = 0;
+        let direction = 'right';
+        let game;
+        let currentWord;
+        let food;
+        let wrongFood;
+        let wrongWord;
 
-    function closeMessage() {
-        const messageContainer = document.getElementById('messageContainer');
-        messageContainer.style.display = 'none';
-    }
-
-    const closeBtn = document.getElementById('closeMessageBtn');
-    closeBtn.addEventListener('click', closeMessage);
-
-    const words = [
-        {english: "to do", mandarin: "做"},
-        {english: "to be", mandarin: "是"},
-        {english: "to be in", mandarin: "在"},
-        {english: "to have", mandarin: "有"},
-        {english: "to live/stay", mandarin: "住"},
-        {english: "to come", mandarin: "来"},
-        {english: "to go", mandarin: "去"},
-        {english: "to return", mandarin: "回"},
-        {english: "to think", mandarin: "想"},
-        {english: "to eat", mandarin: "吃"},
-        {english: "to drink", mandarin: "喝"},
-        {english: "to speak", mandarin: "说话"},
-        {english: "to look", mandarin: "看"},
-        {english: "to see", mandarin: "看见"},
-        {english: "to listen", mandarin: "听"},
-        {english: "to call", mandarin: "叫"},
-        {english: "to buy", mandarin: "买"},
-        {english: "to drive", mandarin: "开"},
-        {english: "to sit", mandarin: "坐"},
-        {english: "to read", mandarin: "读"},
-        {english: "to write", mandarin: "写"},
-
-    ];
-
-    function generateFood() {
-        const randomIndex = Math.floor(Math.random() * words.length);
-        currentWord = words[randomIndex];
-        do {
-            wrongWord = words[Math.floor(Math.random() * words.length)];
-        } while (wrongWord.mandarin === currentWord.mandarin);
-        food = {x: Math.floor(Math.random() * 17 + 1) * box, y: Math.floor(Math.random() * 17 + 1) * box};
-        wrongFood = {x: Math.floor(Math.random() * 17 + 1) * box, y: Math.floor(Math.random() * 17 + 1) * box};
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = (i === 0) ? 'darkgreen' : 'green';
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-            ctx.strokeStyle = 'darkgreen';
-            ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+        function closeMessage() {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.style.display = 'none';
         }
 
-        ctx.fillStyle = 'red';
-        ctx.fillRect(food.x, food.y, box, box);
-        ctx.fillStyle = 'white';
-        ctx.font = '15px Arial';
-        ctx.fillText(currentWord.mandarin, food.x + 2, food.y + 15);
+        const closeBtn = document.getElementById('closeMessageBtn');
+        closeBtn.addEventListener('click', closeMessage);
 
-        ctx.fillStyle = 'red';
-        ctx.fillRect(wrongFood.x, wrongFood.y, box, box);
-        ctx.fillStyle = 'white';
-        ctx.fillText(wrongWord.mandarin, wrongFood.x + 2, wrongFood.y + 15);
+        const words = [
+            { english: "to do", mandarin: "做" },
+            { english: "to be", mandarin: "是" },
+            { english: "to be in", mandarin: "在" },
+            { english: "to have", mandarin: "有" },
+            { english: "to live/stay", mandarin: "住" },
+            { english: "to come", mandarin: "来" },
+            { english: "to go", mandarin: "去" },
+            { english: "to return", mandarin: "回" },
+            { english: "to think", mandarin: "想" },
+            { english: "to eat", mandarin: "吃" },
+            { english: "to drink", mandarin: "喝" },
+            { english: "to speak", mandarin: "说话" },
+            { english: "to look", mandarin: "看" },
+            { english: "to see", mandarin: "看见" },
+            { english: "to listen", mandarin: "听" },
+            { english: "to call", mandarin: "叫" },
+            { english: "to buy", mandarin: "买" },
+            { english: "to drive", mandarin: "开" },
+            { english: "to sit", mandarin: "坐" },
+            { english: "to read", mandarin: "读" },
+            { english: "to write", mandarin: "写" },
 
-        let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
+        ];
 
-        if (direction === 'left') snakeX -= box;
-        if (direction === 'up') snakeY -= box;
-        if (direction === 'right') snakeX += box;
-        if (direction === 'down') snakeY += box;
+        function generateFood() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            currentWord = words[randomIndex];
+            do {
+                wrongWord = words[Math.floor(Math.random() * words.length)];
+            } while (wrongWord.mandarin === currentWord.mandarin);
+            food = { x: Math.floor(Math.random() * 17 + 1) * box, y: Math.floor(Math.random() * 17 + 1) * box };
+            wrongFood = { x: Math.floor(Math.random() * 17 + 1) * box, y: Math.floor(Math.random() * 17 + 1) * box };
+        }
 
-        if (snakeX === food.x && snakeY === food.y) {
-            score++;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillStyle = (i === 0) ? 'darkgreen' : 'green';
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+                ctx.strokeStyle = 'darkgreen';
+                ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+            }
+
+            ctx.fillStyle = 'red';
+            ctx.fillRect(food.x, food.y, box, box);
+            ctx.fillStyle = 'white';
+            ctx.font = '15px Arial';
+            ctx.fillText(currentWord.mandarin, food.x + 2, food.y + 15);
+
+            ctx.fillStyle = 'red';
+            ctx.fillRect(wrongFood.x, wrongFood.y, box, box);
+            ctx.fillStyle = 'white';
+            ctx.fillText(wrongWord.mandarin, wrongFood.x + 2, wrongFood.y + 15);
+
+            let snakeX = snake[0].x;
+            let snakeY = snake[0].y;
+
+            if (direction === 'left') snakeX -= box;
+            if (direction === 'up') snakeY -= box;
+            if (direction === 'right') snakeX += box;
+            if (direction === 'down') snakeY += box;
+
+            // Wrap the snake around the walls
+            if (snakeX < 0) snakeX = canvas.width - box;
+            if (snakeX >= canvas.width) snakeX = 0;
+            if (snakeY < 0) snakeY = canvas.height - box;
+            if (snakeY >= canvas.height) snakeY = 0;
+
+            if (snakeX === food.x && snakeY === food.y) {
+                score++;
+                generateFood();
+            } else {
+                snake.pop();
+            }
+
+            if (snakeX === wrongFood.x && snakeY === wrongFood.y) {
+                clearInterval(game);
+                alert('Game Over');
+            }
+
+            if (collision(snakeX, snakeY, snake)) {
+                clearInterval(game);
+                alert('Game Over');
+            }
+
+            let newHead = { x: snakeX, y: snakeY };
+            snake.unshift(newHead);
+
+            document.getElementById('scoreContainer').innerText = 'Score: ' + score;
+            document.getElementById('wordContainer').innerHTML = '<strong>Choose the Word:</strong> ' + currentWord.english;
+        }
+
+        function collision(x, y, array) {
+            for (let i = 0; i < array.length; i++) {
+                if (x === array[i].x && y === array[i].y) return true;
+            }
+            return false;
+        }
+
+        function startGame() {
+            snake = [{ x: 9 * box, y: 10 * box }];
+            score = 0;
+            direction = 'right';
             generateFood();
-        } else {
-            snake.pop();
+            game = setInterval(draw, 150);
         }
 
-        if (snakeX === wrongFood.x && snakeY === wrongFood.y) {
+        function pauseGame() {
             clearInterval(game);
-            alert('Game Over');
         }
 
-        if (snakeX < 0 || snakeY < 0 || snakeX >= canvas.width || snakeY >= canvas.height || collision(snakeX, snakeY, snake)) {
-            clearInterval(game);
-            alert('Game Over');
+        function changeDirection(event) {
+            let key;
+            if (typeof event === 'string') {
+                key = event;
+            } else {
+                key = event.key;
+            }
+
+            if (key === 'ArrowLeft' && direction !== 'right') direction = 'left';
+            else if (key === 'ArrowUp' && direction !== 'down') direction = 'up';
+            else if (key === 'ArrowRight' && direction !== 'left') direction = 'right';
+            else if (key === 'ArrowDown' && direction !== 'up') direction = 'down';
         }
 
-        let newHead = {x: snakeX, y: snakeY};
-        snake.unshift(newHead);
-
-        document.getElementById('scoreContainer').innerText = 'Score: ' + score;
-        document.getElementById('wordContainer').innerHTML = '<strong>Choose the Word:</strong> ' + currentWord.english;
-    }
-
-    function collision(x, y, array) {
-        for (let i = 0; i < array.length; i++) {
-            if (x === array[i].x && y === array[i].y) return true;
-        }
-        return false;
-    }
-
-    function startGame() {
-        snake = [{x: 9 * box, y: 10 * box}];
-        score = 0;
-        direction = 'right';
-        generateFood();
-        game = setInterval(draw, 100);
-    }
-
-    function pauseGame() {
-        clearInterval(game);
-    }
-
-    function changeDirection(event) {
-        let key;
-        if (typeof event === 'string') {
-            key = event;
-        } else {
-            key = event.key;
-        }
-
-        if (key === 'ArrowLeft' && direction !== 'right') direction = 'left';
-        else if (key === 'ArrowUp' && direction !== 'down') direction = 'up';
-        else if (key === 'ArrowRight' && direction !== 'left') direction = 'right';
-        else if (key === 'ArrowDown' && direction !== 'up') direction = 'down';
-    }
-
-    document.addEventListener('keydown', changeDirection);
-    document.querySelectorAll('.arrow-key').forEach(button => {
-        button.addEventListener('click', () => changeDirection(button.getAttribute('onclick').replace("changeDirection('", "").replace("')", "")));
-    });
-</script>
+        document.addEventListener('keydown', changeDirection);
+        document.querySelectorAll('.arrow-key').forEach(button => {
+            button.addEventListener('click', () => changeDirection(button.getAttribute('onclick').replace("changeDirection('", "").replace("')", "")));
+        });
+    </script>
 </body>
+
 </html>
