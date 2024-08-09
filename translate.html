@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translator</title>
+  <link rel="stylesheet" href="./Translate/translate.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+  <div class="hero">
+      <button>Translate</button>
+      <ul class="button">
+        <li class="row form">
+          <select class="select"></select>
+        </li>
+        <li class="change"><i class="fas fa-exchange-alt"></i></li>
+        <li class="row to">
+          <select class="select"></select>
+        </li>
+      </ul>
+      <div class="groupy">
+        <div class="text-input">
+          <textarea spellcheck="false" class="from-text" placeholder="Type your text"></textarea>
+          <textarea spellcheck="false" readonly class="to-text" placeholder="Translation"></textarea>
+        </div>
+      </div>
+  </div>
+  <script src="countries.js"></script>
+  <script src="script2.js"></script>
+</body>
+</html>

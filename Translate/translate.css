@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    padding: 0 10px;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: whitesmoke;
+}
+
+.hero {
+    max-width: 690px;
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+    font-size: 14px;
+    color: white;
+}
+
+.hero button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff5858, #f857a6);
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hero button:hover {
+    background: linear-gradient(135deg, #f857a6, #ff5858);
+}
+
+.hero .button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.hero .button li {
+    flex: 1;
+}
+
+.button .row select {
+    color: #333;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background: none;
+    transition: border-color 0.3s ease;
+}
+
+.button .row select:focus {
+    border-color: #f857a6;
+}
+
+.button .change {
+    color: #f857a6;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.button .change:hover {
+    color: #ff5858;
+}
+
+.button i:active {
+    transform: scale(0.9);
+}
+
+.groupy {
+    border: 2px solid #ccc;
+    background: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.groupy .text-input {
+    display: flex;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.text-input .to-text {
+    border-left: 2px solid #ccc;
+}
+
+.text-input textarea {
+    resize: none;
+    height: 120px;
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 15px;
+    color: #333;
+}
+
+.text-input textarea::placeholder {
+    color: #999;
+}
