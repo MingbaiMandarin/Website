@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandarin Word Builder</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f2e6d9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game-container {
+            background-color: #fff7e6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+            border: 2px solid #c68c53;
+        }
+
+        #character-container {
+            font-size: 50px;
+            margin-bottom: 10px;
+            color: #c44d34;
+        }
+
+        #english-translation {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .pinyin-grid {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .pinyin-letter {
+            font-size: 24px;
+            background-color: #ffe6cc;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #c68c53;
+        }
+
+        .drop-zone {
+            border: 2px dashed #c68c53;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .submit-btn {
+            background-color: #c44d34;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .submit-btn:hover {
+            background-color: #a53a27;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Chinese-inspired styling */
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            color: #c44d34;
+            border-bottom: 2px solid #c68c53;
+            padding-bottom: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Mandarin Word Builder</h1>
+        <div id="character-container">
+            <h2 id="mandarin-character">汉</h2>
+        </div>
+        <div id="english-translation"></div>
+        <div id="pinyin-container" class="pinyin-grid">
+            <!-- Scrambled pinyin letters will be inserted here by JavaScript -->
+        </div>
+        <div id="drop-zone" class="drop-zone">
+            <!-- Drop zone for arranging pinyin -->
+        </div>
+        <button id="submit-btn" class="submit-btn">Submit</button>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+const words = [
+    { character: '我', pinyin: 'wo', english: 'I' },
+    { character: '你', pinyin: 'ni', english: 'You (singular)' },
+    { character: '他', pinyin: 'ta', english: 'He' },
+    { character: '她', pinyin: 'ta', english: 'She' },
+    { character: '它', pinyin: 'ta', english: 'It' },
+    { character: '我们', pinyin: 'women', english: 'We' },
+    { character: '你们', pinyin: 'nimen', english: 'You (plural)' },
+    { character: '他们', pinyin: 'tamen', english: 'They (male or mixed)' },
+    { character: '她们', pinyin: 'tamen', english: 'They (female)' },
+    { character: '它们', pinyin: 'tamen', english: 'They (objects or animals)' },
+    { character: '我的', pinyin: 'wode', english: 'My' },
+    { character: '你的', pinyin: 'nide', english: 'Your (singular)' },
+    { character: '他的', pinyin: 'tade', english: 'His' },
+    { character: '她的', pinyin: 'tade', english: 'Her' },
+    { character: '它的', pinyin: 'tade', english: 'Its' },
+    { character: '我们的', pinyin: 'womende', english: 'Our' },
+    { character: '你们的', pinyin: 'nimende', english: 'Your (plural)' },
+    { character: '他们的', pinyin: 'tamende', english: 'Their (male or mixed)' },
+    { character: '她们的', pinyin: 'tamende', english: 'Their (female)' },
+    { character: '它们的', pinyin: 'tamende', english: 'Their (objects or animals)' },
+];
+
+
+
+
+        let currentWord;
+        let scrambledPinyin;
+        let droppedLetters = [];
+
+        function startGame() {
+            const word = words[Math.floor(Math.random() * words.length)];
+            currentWord = word.pinyin;
+            scrambledPinyin = shuffleArray(word.pinyin.split(''));
+            droppedLetters = [];
+
+            document.getElementById('mandarin-character').innerText = word.character;
+            document.getElementById('english-translation').innerText = word.english;
+            document.getElementById('pinyin-container').innerHTML = '';
+            document.getElementById('drop-zone').innerHTML = '';
+            document.getElementById('feedback').innerText = '';
+
+            scrambledPinyin.forEach(letter => {
+                const letterElem = document.createElement('div');
+                letterElem.classList.add('pinyin-letter');
+                letterElem.innerText = letter;
+                letterElem.draggable = true;
+                letterElem.addEventListener('dragstart', dragStart);
+                letterElem.addEventListener('dragend', dragEnd);
+                document.getElementById('pinyin-container').appendChild(letterElem);
+            });
+
+            document.getElementById('drop-zone').addEventListener('dragover', dragOver);
+            document.getElementById('drop-zone').addEventListener('drop', drop);
+            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.innerText);
+            e.target.classList.add('dragging');
+        }
+
+        function dragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const data = e.dataTransfer.getData('text/plain');
+            const dropZone = document.getElementById('drop-zone');
+            const newLetter = document.createElement('div');
+            newLetter.classList.add('pinyin-letter');
+            newLetter.innerText = data;
+            newLetter.classList.add('dropped'); // Style for dropped letters
+            dropZone.appendChild(newLetter);
+            droppedLetters.push(data);
+
+            // Remove the letter from the original container
+            const originalLetter = Array.from(document.getElementById('pinyin-container').children)
+                .find(elem => elem.innerText === data);
+            if (originalLetter) originalLetter.remove();
+        }
+
+        function checkAnswer() {
+            const answer = Array.from(document.getElementById('drop-zone').children)
+                .map(elem => elem.innerText)
+                .join('');
+            const feedback = document.getElementById('feedback');
+
+            if (answer === currentWord) {
+                feedback.innerText = 'Correct!';
+                feedback.style.color = 'green';
+            } else {
+                feedback.innerText = 'Try again!';
+                feedback.style.color = 'red';
+            }
+
+            setTimeout(startGame, 1500); // Move to next word after 1.5 seconds
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        window.onload = startGame;
+    </script>
+</body>
+</html>
