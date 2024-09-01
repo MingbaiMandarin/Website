@@ -1,6 +1,8 @@
 // countries.js
+// Language data
 const countries = {
-    "en-GB": "English (United Kingdom)",
-    "hi-IN": "Hindi (India)",
-    // Add more country codes and names as needed
-  };
+  "zh-CN": "Chinese (Simplified)",
+  "en-GB": "English (United Kingdom)",
+  "hi-IN": "Hindi (India)"
+};
+
